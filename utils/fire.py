@@ -60,6 +60,10 @@ class FireProx(object):
             return True
         except:
             return False
+        
+    def generate_random_string(self, length):
+        """Generates a random alphanumeric string of the given length."""
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
     def load_creds(self) -> bool:
         """Load credentials from AWS config and credentials files if present.
@@ -131,8 +135,8 @@ class FireProx(object):
         url = self.url
         if url[-1] == '/':
             url = url[:-1]
-
-        title = 'fireprox_{}'.format(
+        randomTitle = self.generate_random_string(10)
+        title = randomTitle(
             tldextract.extract(url).domain
         )
         version_date = f'{datetime.datetime.now():%Y-%m-%dT%XZ}'
@@ -350,10 +354,6 @@ class FireProx(object):
         #    f'[{created_dt}] ({api_id}) {name} => {proxy_url} ({url})'
         #)
         pass
-
-    def generate_random_string(self, length):
-        """Generates a random alphanumeric string of the given length."""
-        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
     def create_deployment(self, api_id):
         if not api_id:
