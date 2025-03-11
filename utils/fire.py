@@ -7,6 +7,8 @@ import sys
 import datetime
 import argparse
 import configparser
+import random
+import string
 from typing import Tuple
 
 
@@ -349,19 +351,27 @@ class FireProx(object):
         #)
         pass
 
+    def generate_random_string(self, length):
+        """Generates a random alphanumeric string of the given length."""
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
     def create_deployment(self, api_id):
         if not api_id:
             self.error('Please provide a valid API ID')
 
+        randomStageName = self.generate_random_string(5)
+        randomStageDescription = self.generate_random_string(10)
+        randomDescription = self.generate_random_string(15)
+
         response = self.client.create_deployment(
             restApiId=api_id,
-            stageName='fireprox',
-            stageDescription='FireProx Prod',
-            description='FireProx Production Deployment'
+            stageName=randomStageName,
+            stageDescription=randomStageDescription,
+            description=randomDescription
         )
         resource_id = response['id']
         return (resource_id,
-                f'https://{api_id}.execute-api.{self.region}.amazonaws.com/fireprox/')
+                f'https://{api_id}.execute-api.{self.region}.amazonaws.com/{randomStageName}/')
 
     def get_resource(self, api_id):
         if not api_id:
