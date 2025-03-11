@@ -135,6 +135,7 @@ class FireProx(object):
         url = self.url
         if url[-1] == '/':
             url = url[:-1]
+        randomCacheNamespace = self.generate_random_string(5)
         randomTitle = self.generate_random_string(10)
         title = randomTitle
         version_date = f'{datetime.datetime.now():%Y-%m-%dT%XZ}'
@@ -194,7 +195,7 @@ class FireProx(object):
                   },
                   "passthroughBehavior": "when_no_match",
                   "httpMethod": "ANY",
-                  "cacheNamespace": "irx7tm",
+                  "cacheNamespace": "{{randomCacheNamespace}}",
                   "cacheKeyParameters": [
                     "method.request.path.proxy"
                   ],
