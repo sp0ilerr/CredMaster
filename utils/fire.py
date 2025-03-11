@@ -136,9 +136,7 @@ class FireProx(object):
         if url[-1] == '/':
             url = url[:-1]
         randomTitle = self.generate_random_string(10)
-        title = randomTitle(
-            tldextract.extract(url).domain
-        )
+        title = randomTitle
         version_date = f'{datetime.datetime.now():%Y-%m-%dT%XZ}'
         template = '''
         {
